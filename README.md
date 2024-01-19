@@ -1,5 +1,8 @@
 # Laravel Multiple Flash Messages
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/rboonzaijer/laravel-multiple-flash-messages.svg?style=flat-square)](https://packagist.org/packages/rboonzaijer/laravel-multiple-flash-messages)
+[![tests](https://github.com/rboonzaijer/laravel-multiple-flash-messages/actions/workflows/tests.yml/badge.svg)](https://github.com/rboonzaijer/laravel-multiple-flash-messages/actions/workflows/tests.yml)
+
 - Supports flashing **multiple messages** to the session
 - **Flexible messages** - fill the `$options` array with your custom data
 - Helper methods that can easily be remembered and allows **clean controllers**
