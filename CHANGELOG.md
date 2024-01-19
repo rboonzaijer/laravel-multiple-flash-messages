@@ -2,6 +2,10 @@
 
 laravel-multiple-flash-messages
 
+## 1.1.0 - 2024-01-19
+
+add automated tests
+
 ## 1.0.1 - 2024-01-19
 
 - cleanup tests + improved readme
