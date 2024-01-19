@@ -1,17 +1,13 @@
 # Laravel Multiple Flash Messages
 
-<p align="center">
-
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/rboonzaijer/laravel-multiple-flash-messages.svg?style=flat-square)](https://packagist.org/packages/rboonzaijer/laravel-multiple-flash-messages)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/rboonzaijer/laravel-multiple-flash-messages.svg?style=flat)](https://packagist.org/packages/rboonzaijer/laravel-multiple-flash-messages)
 [![MIT License](https://img.shields.io/github/license/rboonzaijer/laravel-multiple-flash-messages?style=flat
 )](https://github.com/rboonzaijer/laravel-multiple-flash-messages/blob/main/LICENSE.md)
+
 [![tests](https://github.com/rboonzaijer/laravel-multiple-flash-messages/actions/workflows/tests.yml/badge.svg)](https://github.com/rboonzaijer/laravel-multiple-flash-messages/actions/workflows/tests.yml)
-
-[![tests](https://shields.io/badge/style-8.3-green?label=php&style=flat-square)](https://github.com/rboonzaijer/laravel-multiple-flash-messages/actions/workflows/tests.yml)
-[![tests](https://shields.io/badge/style-8.2-green?label=php&style=flat-square)](https://github.com/rboonzaijer/laravel-multiple-flash-messages/actions/workflows/tests.yml)
-[![tests](https://shields.io/badge/style-8.1-green?label=php&style=flat-square)](https://github.com/rboonzaijer/laravel-multiple-flash-messages/actions/workflows/tests.yml)
-
-</p>
+[![tests](https://shields.io/badge/style-8.3-green?label=php&style=flat)](https://github.com/rboonzaijer/laravel-multiple-flash-messages/actions/workflows/tests.yml)
+[![tests](https://shields.io/badge/style-8.2-green?label=php&style=flat)](https://github.com/rboonzaijer/laravel-multiple-flash-messages/actions/workflows/tests.yml)
+[![tests](https://shields.io/badge/style-8.1-green?label=php&style=flat)](https://github.com/rboonzaijer/laravel-multiple-flash-messages/actions/workflows/tests.yml)
 
 - Supports flashing **multiple messages** to the session
 - **Flexible messages** - fill the `$options` array with your custom data
