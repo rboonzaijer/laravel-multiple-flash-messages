@@ -44,7 +44,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "RBoonzaijer\\LaravelMultipleFlashMessages\\FlashMessagesServiceProvider"
+                "RBoonzaijer\\LaravelMultipleFlashMessages\\FlashMessageServiceProvider"
             ]
         }
     },
