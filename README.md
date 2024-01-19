@@ -80,7 +80,7 @@ flash('Flagged', [
         'ticket' => 123,
         'urls' => [
             'https://example.com',
-            'http://exapmle.com',
+            'http://example.com',
         ]
     ]
 ]);
