@@ -7,7 +7,7 @@
 ## Install
 
 ```bash
-composer require laravel-multiple-flash-messages:^1.0
+composer require rboonzaijer/laravel-multiple-flash-messages:^1.0
 ```
 
 ## Usage
