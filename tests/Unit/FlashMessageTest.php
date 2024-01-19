@@ -21,9 +21,9 @@ class FlashMessageTest extends TestCase
     public function it_can_set_a_flash_message_using_the_container()
     {
         $container = new FlashMessageContainer();
-        $container->flash('My New Message');
+        $container->flash('My Message');
 
-        $this->assertEquals([['message' => 'My New Message', 'type' => 'default']], Session::get('messages'));
+        $this->assertEquals([['message' => 'My Message', 'type' => 'default']], Session::get('messages'));
     }
 
     /** @test */
@@ -36,7 +36,7 @@ class FlashMessageTest extends TestCase
 
     /**
      * @test
-     * @dataProvider provider_it_can_set_other_types_of_flash_messages
+     * @dataProvider provider_it_can_set_other_types_of_flash_messages_using_a_helper
      */
     public function it_can_set_other_types_of_flash_messages_using_a_helper($expected, $method)
     {
@@ -44,15 +44,14 @@ class FlashMessageTest extends TestCase
 
         $this->assertEquals($expected, Session::get('messages'));
     }
-
-    public static function provider_it_can_set_other_types_of_flash_messages()
+    public static function provider_it_can_set_other_types_of_flash_messages_using_a_helper()
     {
         return [
-            'flash()' => [[['message' => 'My Message', 'type' => 'default']], 'flash'],
-            'flashInfo()' => [[['message' => 'My Message', 'type' => 'info']], 'flashInfo'],
+            'flash()' => [       [['message' => 'My Message', 'type' => 'default']], 'flash'],
+            'flashInfo()' => [   [['message' => 'My Message', 'type' => 'info']],    'flashInfo'],
             'flashSuccess()' => [[['message' => 'My Message', 'type' => 'success']], 'flashSuccess'],
             'flashWarning()' => [[['message' => 'My Message', 'type' => 'warning']], 'flashWarning'],
-            'flashError()' => [[['message' => 'My Message', 'type' => 'error']], 'flashError'],
+            'flashError()' => [  [['message' => 'My Message', 'type' => 'error']],   'flashError'],
         ];
     }
 
@@ -70,15 +69,39 @@ class FlashMessageTest extends TestCase
 
         $this->assertEquals($expected, Session::get('messages'));
     }
-
     public static function provider_it_can_flash_a_message_with_custom_options()
     {
         return [
-            'flash()' => [[['message' => 'My Message', 'type' => 'default', 'id' => 50, 'color' => 'white']], ['flash', 'My Message', ['id' => 50, 'color' => 'white']]],
-            'flashInfo()' => [[['message' => 'My Info Message', 'type' => 'info', 'id' => 51, 'color' => 'blue']], ['flashInfo', 'My Info Message', ['id' => 51, 'color' => 'blue']]],
-            'flashSuccess()' => [[['message' => 'My Success Message', 'type' => 'success', 'id' => 52, 'color' => 'green']], ['flashSuccess', 'My Success Message', ['id' => 52, 'color' => 'green']]],
+            'flash()' => [       [['message' => 'My Message',         'type' => 'default', 'id' => 50, 'color' => 'white']],  ['flash',        'My Message',         ['id' => 50, 'color' => 'white']]],
+            'flashInfo()' => [   [['message' => 'My Info Message',    'type' => 'info',    'id' => 51, 'color' => 'blue']],   ['flashInfo',    'My Info Message',    ['id' => 51, 'color' => 'blue']]],
+            'flashSuccess()' => [[['message' => 'My Success Message', 'type' => 'success', 'id' => 52, 'color' => 'green']],  ['flashSuccess', 'My Success Message', ['id' => 52, 'color' => 'green']]],
             'flashWarning()' => [[['message' => 'My Warning Message', 'type' => 'warning', 'id' => 53, 'color' => 'yellow']], ['flashWarning', 'My Warning Message', ['id' => 53, 'color' => 'yellow']]],
-            'flashError()' => [[['message' => 'My Error Message', 'type' => 'error', 'id' => 54, 'color' => 'red']], ['flashError', 'My Error Message', ['id' => 54, 'color' => 'red']]],
+            'flashError()' => [  [['message' => 'My Error Message',   'type' => 'error',   'id' => 54, 'color' => 'red']],    ['flashError',   'My Error Message',   ['id' => 54, 'color' => 'red']]],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provider_it_overrides_the_custom_type_when_used_any_other_method_then_the_default_flash
+     */
+    public function it_overrides_the_custom_type_when_used_any_other_method_then_the_default_flash($expected, $input)
+    {
+        $method = $input[0];
+        $message = $input[1];
+        $options = $input[2];
+        
+        $method($message, $options);
+
+        $this->assertEquals($expected, Session::get('messages'));
+    }
+    public static function provider_it_overrides_the_custom_type_when_used_any_other_method_then_the_default_flash()
+    {
+        return [
+            'flash()' => [       [['message' => 'My Message', 'type' => 'CUSTOM-WHITE']],    ['flash',        'My Message',         ['type' => 'CUSTOM-WHITE']]],
+            'flashInfo()' => [   [['message' => 'My Info Message', 'type' => 'info']],       ['flashInfo',    'My Info Message',    ['type' => 'CUSTOM-INFO-OVERWRITTEN']]],
+            'flashSuccess()' => [[['message' => 'My Success Message', 'type' => 'success']], ['flashSuccess', 'My Success Message', ['type' => 'CUSTOM-GREEN-OVERWRITTEN']]],
+            'flashWarning()' => [[['message' => 'My Warning Message', 'type' => 'warning']], ['flashWarning', 'My Warning Message', ['type' => 'CUSTOM-YELLOW-OVERWRITTEN']]],
+            'flashError()' => [  [['message' => 'My Error Message', 'type' => 'error']],     ['flashError',   'My Error Message',   ['type' => 'CUSTOM-RED-OVERWRITTEN']]],
         ];
     }
 
@@ -96,15 +119,14 @@ class FlashMessageTest extends TestCase
 
         $this->assertEquals($expected, Session::get('messages'));
     }
-
     public static function provider_it_can_stay_in_memory_until_you_flash_to_session()
     {
         return [
-            'flash()' => [[['message' => 'My Message', 'type' => 'default']], 'flash'],
-            'flashInfo()' => [[['message' => 'My Message', 'type' => 'info']], 'flashInfo'],
+            'flash()' => [       [['message' => 'My Message', 'type' => 'default']], 'flash'],
+            'flashInfo()' => [   [['message' => 'My Message', 'type' => 'info']],    'flashInfo'],
             'flashSuccess()' => [[['message' => 'My Message', 'type' => 'success']], 'flashSuccess'],
             'flashWarning()' => [[['message' => 'My Message', 'type' => 'warning']], 'flashWarning'],
-            'flashError()' => [[['message' => 'My Message', 'type' => 'error']], 'flashError'],
+            'flashError()' => [  [['message' => 'My Message', 'type' => 'error']],   'flashError'],
         ];
     }
 
@@ -119,12 +141,12 @@ class FlashMessageTest extends TestCase
         flashError('My Error Message');
 
         $this->assertEquals([
-            ['message' => 'My Message', 'type' => 'default'],
-            ['message' => 'My Second Message', 'type' => 'default'],
-            ['message' => 'My Info Message', 'type' => 'info'],
+            ['message' => 'My Message',         'type' => 'default'],
+            ['message' => 'My Second Message',  'type' => 'default'],
+            ['message' => 'My Info Message',    'type' => 'info'],
             ['message' => 'My Success Message', 'type' => 'success'],
             ['message' => 'My Warning Message', 'type' => 'warning'],
-            ['message' => 'My Error Message', 'type' => 'error'],
+            ['message' => 'My Error Message',   'type' => 'error'],
         ], Session::get('messages'));
     }
 
@@ -139,12 +161,12 @@ class FlashMessageTest extends TestCase
             ->flashError('My Error Message');
 
         $this->assertEquals([
-            ['message' => 'My Message', 'type' => 'default'],
-            ['message' => 'My Second Message', 'type' => 'default'],
-            ['message' => 'My Info Message', 'type' => 'info'],
+            ['message' => 'My Message',         'type' => 'default'],
+            ['message' => 'My Second Message',  'type' => 'default'],
+            ['message' => 'My Info Message',    'type' => 'info'],
             ['message' => 'My Success Message', 'type' => 'success'],
             ['message' => 'My Warning Message', 'type' => 'warning'],
-            ['message' => 'My Error Message', 'type' => 'error'],
+            ['message' => 'My Error Message',   'type' => 'error'],
         ], Session::get('messages'));
     }
 
@@ -159,12 +181,12 @@ class FlashMessageTest extends TestCase
         app(FlashMessageContainer::class)->flashError('My Error Message');
 
         $this->assertEquals([
-            ['message' => 'My Message', 'type' => 'default'],
-            ['message' => 'My Second Message', 'type' => 'default'],
-            ['message' => 'My Info Message', 'type' => 'info'],
+            ['message' => 'My Message',         'type' => 'default'],
+            ['message' => 'My Second Message',  'type' => 'default'],
+            ['message' => 'My Info Message',    'type' => 'info'],
             ['message' => 'My Success Message', 'type' => 'success'],
             ['message' => 'My Warning Message', 'type' => 'warning'],
-            ['message' => 'My Error Message', 'type' => 'error'],
+            ['message' => 'My Error Message',   'type' => 'error'],
         ], Session::get('messages'));
     }
 
@@ -179,12 +201,12 @@ class FlashMessageTest extends TestCase
             ->flashError('My Error Message');
         
         $this->assertEquals([
-            ['message' => 'My Message', 'type' => 'default'],
-            ['message' => 'My Second Message', 'type' => 'default'],
-            ['message' => 'My Info Message', 'type' => 'info'],
+            ['message' => 'My Message',         'type' => 'default'],
+            ['message' => 'My Second Message',  'type' => 'default'],
+            ['message' => 'My Info Message',    'type' => 'info'],
             ['message' => 'My Success Message', 'type' => 'success'],
             ['message' => 'My Warning Message', 'type' => 'warning'],
-            ['message' => 'My Error Message', 'type' => 'error'],
+            ['message' => 'My Error Message',   'type' => 'error'],
         ], Session::get('messages'));
     }
 
@@ -197,7 +219,6 @@ class FlashMessageTest extends TestCase
         $method('');
 
         $this->assertNull(Session::get('messages'));
-        $this->assertEquals($expected, Session::get('messages'));
     }
 
     /**
@@ -209,19 +230,16 @@ class FlashMessageTest extends TestCase
         $method(' ');
 
         $this->assertNull(Session::get('messages'));
-        $this->assertEquals($expected, Session::get('messages'));
     }
 
     public static function provider_all_methods_expected_empty()
     {
-        $expected = null;
-
         return [
-            'flash()' => [$expected, 'flash'],
-            'flashInfo()' => [$expected, 'flashInfo'],
-            'flashSuccess()' => [$expected, 'flashSuccess'],
-            'flashWarning()' => [$expected, 'flashWarning'],
-            'flashError()' => [$expected, 'flashError'],
+            'flash()' =>        [null, 'flash'],
+            'flashInfo()' =>    [null, 'flashInfo'],
+            'flashSuccess()' => [null, 'flashSuccess'],
+            'flashWarning()' => [null, 'flashWarning'],
+            'flashError()' =>   [null, 'flashError'],
         ];
     }
 
