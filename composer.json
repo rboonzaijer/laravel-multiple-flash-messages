@@ -1,0 +1,55 @@
+{
+    "name": "rboonzaijer/laravel-multiple-flash-messages",
+    "description": "Multiple flash messages with Laravel",
+    "keywords": [
+        "laravel-multiple-flash-messages",
+        "laravel-flash-messages",
+        "flash-messages",
+        "laravel-multiple-notifications",
+        "laravel-notifications",
+        "notifications",
+        "laravel-multiple-alerts",
+        "laravel-alerts",
+        "alerts"
+    ],
+    "homepage": "https://github.com/rboonzaijer/laravel-multiple-flash-messages",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roel",
+            "email": "10514742+rboonzaijer@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "illuminate/session": "^10.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5",
+        "orchestra/testbench": "^8.20"
+    },
+    "autoload": {
+        "psr-4": {
+            "RBoonzaijer\\LaravelMultipleFlashMessages\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RBoonzaijer\\LaravelMultipleFlashMessages\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "RBoonzaijer\\LaravelMultipleFlashMessages\\FlashMessagesServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "@php vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    }
+}
